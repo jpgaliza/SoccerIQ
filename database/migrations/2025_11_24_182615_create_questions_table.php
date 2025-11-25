@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         Schema::create('questions', function (Blueprint $table) {
@@ -15,6 +16,7 @@ return new class extends Migration {
             $table->string('option_c');
             $table->string('option_d');
             $table->enum('correct_option', ['a', 'b', 'c', 'd']);
+            $table->integer('time_limit')->default(20);
             $table->timestamps();
         });
     }

@@ -14,11 +14,13 @@ class QuizQuestion extends Model
         'question_id',
         'selected_option',
         'is_correct',
+        'time_expired',
         'time_spent'
     ];
 
     protected $casts = [
         'is_correct' => 'boolean',
+        'time_expired' => 'boolean',
     ];
 
     public function quiz()

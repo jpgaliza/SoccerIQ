@@ -11,7 +11,7 @@ class Quiz extends Model
 
     protected $fillable = [
         'user_id',
-        'score', 
+        'score',
         'correct_answers',
         'time_spent',
         'completed_at'
@@ -31,19 +31,10 @@ class Quiz extends Model
         return $this->hasMany(QuizQuestion::class);
     }
 
-    // Método SIMPLES para finalizar quiz
-    public function complete($correctAnswers, $totalTime)
+    public function questions()
     {
-        $score = $correctAnswers * 10; // Cada acerto = 10 pontos
-        
-        $this->update([
-            'score' => $score,
-            'correct_answers' => $correctAnswers,
-            'time_spent' => $totalTime,
-            'completed_at' => now()
-        ]);
-
-        // Atualiza score total do usuário
-        $this->user->increment('total_score', $score);
+        return $this->belongsToMany(Question::class, 'quiz_questions')
+                    ->withPivot('selected_option', 'is_correct', 'time_expired', 'time_spent')
+                    ->withTimestamps();
     }
 }
