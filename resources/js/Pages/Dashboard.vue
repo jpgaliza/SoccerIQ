@@ -1,7 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import LeaderboardTable from '@/Components/LeaderboardTable.vue';
+import { Head, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     overview: {
@@ -72,56 +73,16 @@ const metricCards = computed(() => [
                 </div>
 
                 <div class="flex flex-wrap gap-4">
-                    <button type="button"
+                    <Link :href="route('quiz')"
                         class="rounded-button bg-emerald-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-200 transition hover:bg-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2">
-                        Iniciar novo quiz
-                    </button>
+                    Iniciar novo quiz
+                    </Link>
                     <button type="button"
                         class="rounded-button border border-emerald-200 px-6 py-3 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200 focus-visible:ring-offset-2">
                         Ver histórico
                     </button>
                 </div>
-
-                <section class="rounded-3xl border border-slate-100 bg-white/95 p-6 shadow-xl">
-                    <header class="mb-6 flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-medal-icon lucide-medal"><path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"/><path d="M11 12 5.12 2.2"/><path d="m13 12 5.88-9.8"/><path d="M8 7h8"/><circle cx="12" cy="17" r="5"/><path d="M12 18v-2h-.5"/></svg>
-                            </div>
-                            <div>
-                                <p class="text-sm font-semibold uppercase tracking-wide text-slate-400">
-                                    Ranking global
-                                </p>
-                                <p class="text-xl font-bold text-slate-900">Desempenho dos melhores jogadores</p>
-                            </div>
-                        </div>
-                    </header>
-
-                    <div class="overflow-x-auto">
-                        <table class="w-full table-auto text-left text-sm text-slate-600">
-                            <thead class="text-xs uppercase tracking-wider text-slate-400">
-                                <tr>
-                                    <th class="pb-3 font-semibold">Posição</th>
-                                    <th class="pb-3 font-semibold">Jogador</th>
-                                    <th class="pb-3 font-semibold">Pontuação</th>
-                                    <th class="pb-3 font-semibold">Tempo</th>
-                                    <th class="pb-3 font-semibold">Precisão</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100 text-base text-slate-800">
-                                <tr v-for="player in props.leaderboard" :key="player.rank"
-                                    class="hover:bg-emerald-50/30">
-                                    <td class="py-4 font-semibold text-emerald-600">#{{ player.rank }}</td>
-                                    <td class="py-4">{{ player.player }}</td>
-                                    <td class="py-4 font-semibold">{{ player.score.toLocaleString('pt-BR') }}</td>
-                                    <td class="py-4 text-slate-500">{{ player.time }}</td>
-                                    <td class="py-4 text-slate-500">{{ player.accuracy }}%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
+                <LeaderboardTable :players="props.leaderboard" />
             </div>
         </div>
     </AuthenticatedLayout>
