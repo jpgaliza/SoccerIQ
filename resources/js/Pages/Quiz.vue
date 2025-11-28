@@ -260,17 +260,41 @@ const returnToDashboard = () => {
                     <ul class="mt-6 space-y-3 text-left text-sm text-slate-600">
                         <li class="flex items-center gap-3">
                             <span
-                                class="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">⏱</span>
+                                class="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-timer-icon lucide-timer">
+                                    <line x1="10" x2="14" y1="2" y2="2" />
+                                    <line x1="12" x2="15" y1="14" y2="11" />
+                                    <circle cx="12" cy="14" r="8" />
+                                </svg>
+                            </span>
                             Limite de tempo: {{ quizMeta.timeLimit }}
                         </li>
                         <li class="flex items-center gap-3">
                             <span
-                                class="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">❓</span>
+                                class="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="lucide lucide-circle-question-mark-icon lucide-circle-question-mark">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                                    <path d="M12 17h.01" />
+                                </svg>
+                            </span>
                             Perguntas: {{ quizMeta.totalQuestions }}
                         </li>
                         <li class="flex items-center gap-3">
                             <span
-                                class="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">⚡</span>
+                                class="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-zap-icon lucide-zap">
+                                    <path
+                                        d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
+                                </svg>
+                            </span>
                             {{ quizMeta.info.join(' • ') }}
                         </li>
                     </ul>
@@ -296,7 +320,7 @@ const returnToDashboard = () => {
                         </div>
                         <div class="rounded-2xl border border-slate-100 px-4 py-3 text-slate-600">
                             Perguntas certas: <span class="font-bold">{{ Math.round(score / 50) }} / {{ totalQuestions
-                                }}</span>
+                            }}</span>
                         </div>
                     </div>
                     <button type="button"

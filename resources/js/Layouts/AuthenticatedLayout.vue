@@ -13,7 +13,7 @@ const showingNavigationDropdown = ref(false);
 <template>
     <div>
         <div class="min-h-screen bg-gradient-to-b from-neutral-50 via-white to-white">
-            <nav class="border-b border-emerald-50 bg-white/95 shadow-sm">
+            <nav class="border-b border-zinc-200 bg-white/95 shadow-sm">
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex h-16 justify-between">
@@ -29,6 +29,9 @@ const showingNavigationDropdown = ref(false);
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')" class="">
                                     Dashboard
+                                </NavLink>
+                                <NavLink :href="route('history')" :active="route().current('history')">
+                                    Histórico
                                 </NavLink>
                             </div>
                         </div>
@@ -99,6 +102,9 @@ const showingNavigationDropdown = ref(false);
                     <div class="space-y-1 pb-3 pt-2">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('history')" :active="route().current('history')">
+                            Histórico
                         </ResponsiveNavLink>
                     </div>
 

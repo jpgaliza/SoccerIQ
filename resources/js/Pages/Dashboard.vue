@@ -77,10 +77,10 @@ const metricCards = computed(() => [
                         class="rounded-button bg-emerald-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-200 transition hover:bg-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2">
                     Iniciar novo quiz
                     </Link>
-                    <button type="button"
+                    <Link :href="route('history')"
                         class="rounded-button border border-emerald-200 px-6 py-3 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200 focus-visible:ring-offset-2">
-                        Ver histórico
-                    </button>
+                    Ver histórico
+                    </Link>
                 </div>
                 <LeaderboardTable :players="props.leaderboard" />
             </div>
