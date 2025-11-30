@@ -62,4 +62,25 @@ class QuizController extends Controller
             'quiz' => $quiz
         ]);
     }
+
+    public function ranking()
+    {
+        $ranking = Quiz::with('user')
+            ->whereNotNull('completed_at')
+            ->orderBy('score', 'DESC')
+            ->orderBy('completed_at', 'ASC')
+            ->limit(10)
+            ->get()
+            ->map(function ($quiz) {
+                return [
+                    'user_name' => $quiz->user->name,
+                    'score' => $quiz->score,
+                    'completed_at' => $quiz->completed_at->format('d/m/Y H:i'),
+                ];
+            });
+
+        return response()->json([
+            'ranking' => $ranking
+        ]);
+    }
 }

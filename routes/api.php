@@ -20,4 +20,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/quiz/start', [QuizController::class, 'start']);
     Route::post('/quiz/{quiz}/answer', [QuizController::class, 'answer']);
     Route::post('/quiz/{quiz}/finish', [QuizController::class, 'finish']);
+    Route::get('/ranking', [QuizController::class, 'ranking']);
 });
