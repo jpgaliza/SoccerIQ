@@ -1,15 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 })->name('welcome');
 
-Route::get('/login', function () {
-    return response()->json(['message' => 'Unauthenticated'], 401);
-})->name('login');
+// Auth routes are defined in routes/auth.php (Breeze)
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
