@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 Route::get('/', function () {
-    return 'ok';
-});
+    return Inertia::render('Welcome');
+})->name('welcome');
 
 Route::get('/login', function () {
     return response()->json(['message' => 'Unauthenticated'], 401);
