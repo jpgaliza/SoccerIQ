@@ -8,22 +8,15 @@ const props = defineProps({
     overview: {
         type: Object,
         default: () => ({
-            rank: 8,
-            totalScore: 7200,
-            accuracy: 72,
-            quizzesTaken: 5,
+            rank: null,
+            totalScore: 0,
+            accuracy: 0,
+            quizzesTaken: 0,
         }),
     },
     leaderboard: {
         type: Array,
-        default: () => [
-            { rank: 1, player: 'João Silva', score: 9200, time: '12:34', accuracy: 92 },
-            { rank: 2, player: 'Maria Santos', score: 8950, time: '13:22', accuracy: 89 },
-            { rank: 3, player: 'Carlos Oliveira', score: 8600, time: '14:15', accuracy: 86 },
-            { rank: 4, player: 'Ana Costa', score: 8200, time: '15:45', accuracy: 82 },
-            { rank: 5, player: 'Pedro Alves', score: 7800, time: '16:30', accuracy: 78 },
-            { rank: 6, player: 'Lúcia Ferreira', score: 7500, time: '17:00', accuracy: 75 },
-        ],
+        default: () => [],
     },
 });
 

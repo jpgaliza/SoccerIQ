@@ -1,70 +1,22 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
+import axios from 'axios';
+
+const props = defineProps({
+    questions: {
+        type: Array,
+        default: () => []
+    }
+});
 
 const quizMeta = {
-    code: 'Quiz SoccerIQ #27',
-    reward: 200,
-    timeLimit: '10 minutos',
-    totalQuestions: 4,
-    info: ['10 perguntas rápidas', '4 alternativas por pergunta', '1 resposta correta'],
+    code: 'Quiz SoccerIQ',
+    timeLimit: '5 minutos',
+    totalQuestions: 10,
+    info: ['10 perguntas aleatórias', '4 alternativas por pergunta', '30 segundos por questão', 'Máximo 100 pts por pergunta'],
 };
-
-const questions = [
-    {
-        id: 1,
-        code: 'Quiz SoccerIQ #27',
-        question: 'Quem marcou os dois gols do Brasil na final da Copa do Mundo de 2002?',
-        options: [
-            { id: 'a', label: 'A', text: 'Rivaldo' },
-            { id: 'b', label: 'B', text: 'Ronaldo Fenômeno' },
-            { id: 'c', label: 'C', text: 'Ronaldinho Gaúcho' },
-            { id: 'd', label: 'D', text: 'Kaká' },
-        ],
-        correct: 'b',
-        points: 50,
-    },
-    {
-        id: 2,
-        code: 'Quiz SoccerIQ #27',
-        question: 'Qual clube revelou Neymar antes da sua ida ao Barcelona?',
-        options: [
-            { id: 'a', label: 'A', text: 'Santos' },
-            { id: 'b', label: 'B', text: 'Flamengo' },
-            { id: 'c', label: 'C', text: 'Palmeiras' },
-            { id: 'd', label: 'D', text: 'São Paulo' },
-        ],
-        correct: 'a',
-        points: 50,
-    },
-    {
-        id: 3,
-        code: 'Quiz SoccerIQ #27',
-        question: 'Em que país aconteceu a Copa do Mundo que revelou James Rodríguez em 2014?',
-        options: [
-            { id: 'a', label: 'A', text: 'África do Sul' },
-            { id: 'b', label: 'B', text: 'Alemanha' },
-            { id: 'c', label: 'C', text: 'Brasil' },
-            { id: 'd', label: 'D', text: 'Rússia' },
-        ],
-        correct: 'c',
-        points: 50,
-    },
-    {
-        id: 4,
-        code: 'Quiz SoccerIQ #27',
-        question: 'Qual seleção venceu a Eurocopa de 2016 com gol de Éder na final?',
-        options: [
-            { id: 'a', label: 'A', text: 'França' },
-            { id: 'b', label: 'B', text: 'Espanha' },
-            { id: 'c', label: 'C', text: 'Itália' },
-            { id: 'd', label: 'D', text: 'Portugal' },
-        ],
-        correct: 'd',
-        points: 50,
-    },
-];
 
 const showIntroModal = ref(true);
 const showSummaryModal = ref(false);
@@ -74,11 +26,16 @@ const isAnswerRevealed = ref(false);
 const score = ref(0);
 const feedbackMessage = ref('');
 const feedbackType = ref('neutral');
+const quizId = ref(null);
+const isLoading = ref(false);
 
-const totalQuestions = questions.length;
-quizMeta.totalQuestions = totalQuestions;
+// Timer vars
+const timeLeft = ref(30);
+const timer = ref(null);
+const questionStartTime = ref(null);
 
-const currentQuestion = computed(() => questions[currentQuestionIndex.value]);
+const totalQuestions = props.questions.length;
+const currentQuestion = computed(() => props.questions[currentQuestionIndex.value]);
 
 const progressPercent = computed(() => {
     const completed = currentQuestionIndex.value + (isAnswerRevealed.value ? 1 : 0);
@@ -103,41 +60,114 @@ const actionButtonClasses = computed(() => {
     return 'rounded-button w-full bg-emerald-500 px-6 py-3 text-center text-base font-semibold text-white shadow-lg shadow-emerald-200 transition hover:bg-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2';
 });
 
+const formatTime = (seconds) => {
+    return `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}`;
+};
+
+const startTimer = () => {
+    timeLeft.value = 30;
+    questionStartTime.value = Date.now();
+    timer.value = setInterval(() => {
+        timeLeft.value--;
+        if (timeLeft.value <= 0) {
+            handleTimeUp();
+        }
+    }, 1000);
+};
+
+const stopTimer = () => {
+    if (timer.value) {
+        clearInterval(timer.value);
+        timer.value = null;
+    }
+};
+
+const handleTimeUp = () => {
+    if (!isAnswerRevealed.value) {
+        // Tempo esgotado, marcar como incorreta
+        selectedOption.value = null;
+        handlePrimaryAction();
+    }
+};
+
 const selectOption = (optionId) => {
     if (isAnswerRevealed.value) return;
     selectedOption.value = optionId;
 };
 
-const startQuiz = () => {
+const startQuiz = async () => {
     showIntroModal.value = false;
+    isLoading.value = true;
+
+    try {
+        const response = await axios.post(route('quiz.start'));
+        quizId.value = response.data.quiz_id;
+        startTimer();
+    } catch (error) {
+        console.error('Erro ao iniciar quiz:', error);
+        alert('Erro ao iniciar quiz. Tente novamente.');
+    } finally {
+        isLoading.value = false;
+    }
 };
 
-const handlePrimaryAction = () => {
+const handlePrimaryAction = async () => {
     if (!isAnswerRevealed.value) {
-        if (!selectedOption.value) return;
+        stopTimer();
         isAnswerRevealed.value = true;
-        const isCorrect = selectedOption.value === currentQuestion.value.correct;
-        if (isCorrect) {
-            score.value += currentQuestion.value.points;
-            feedbackMessage.value = `Resposta correta! +${currentQuestion.value.points} pts.`;
-            feedbackType.value = 'correct';
-        } else {
-            feedbackMessage.value = 'Resposta incorreta. Continue focado!';
+        isLoading.value = true;
+
+        const timeTaken = selectedOption.value ? Math.floor((Date.now() - questionStartTime.value) / 1000) : 30;
+
+        try {
+            const response = await axios.post(route('quiz.answer'), {
+                quiz_id: quizId.value,
+                question_id: currentQuestion.value.id,
+                user_answer: selectedOption.value || '999', // 999 para respostas não respondidas
+                time_taken: timeTaken
+            });
+
+            const pointsEarned = response.data.points_earned;
+            score.value = response.data.total_score;
+
+            if (response.data.is_correct) {
+                feedbackMessage.value = `Resposta correta! +${pointsEarned} pts.`;
+                feedbackType.value = 'correct';
+            } else {
+                feedbackMessage.value = selectedOption.value ? 'Resposta incorreta. Continue focado!' : 'Tempo esgotado!';
+                feedbackType.value = 'incorrect';
+            }
+        } catch (error) {
+            console.error('Erro ao enviar resposta:', error);
+            feedbackMessage.value = 'Erro ao processar resposta';
             feedbackType.value = 'incorrect';
+        } finally {
+            isLoading.value = false;
         }
         return;
     }
 
     if (currentQuestionIndex.value === totalQuestions - 1) {
-        showSummaryModal.value = true;
+        // Finalizar quiz
+        isLoading.value = true;
+        try {
+            await axios.post(route('quiz.finish'), { quiz_id: quizId.value });
+            showSummaryModal.value = true;
+        } catch (error) {
+            console.error('Erro ao finalizar quiz:', error);
+        } finally {
+            isLoading.value = false;
+        }
         return;
     }
 
+    // Próxima pergunta
     currentQuestionIndex.value += 1;
     selectedOption.value = null;
     isAnswerRevealed.value = false;
     feedbackMessage.value = '';
     feedbackType.value = 'neutral';
+    startTimer();
 };
 
 const optionClasses = (optionId) => {
@@ -175,6 +205,10 @@ const returnToDashboard = () => {
     showSummaryModal.value = false;
     router.visit(route('dashboard'));
 };
+
+onUnmounted(() => {
+    stopTimer();
+});
 </script>
 
 <template>
@@ -191,8 +225,10 @@ const returnToDashboard = () => {
                             <p class="text-3xl font-bold text-slate-900">{{ score }} pts</p>
                         </div>
                         <div class="flex items-center gap-3 text-sm text-slate-500">
-                            <div class="rounded-full bg-emerald-50 px-4 py-2 font-semibold text-emerald-600">{{
-                                quizMeta.reward }} XP</div>
+                            <div class="rounded-full px-4 py-2 font-semibold"
+                                :class="timeLeft <= 5 ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'">
+                                {{ formatTime(timeLeft) }}
+                            </div>
                             <div class="text-slate-400">{{ currentQuestionIndex + 1 }}/{{ totalQuestions }} perguntas
                             </div>
                         </div>
@@ -316,11 +352,13 @@ const returnToDashboard = () => {
                         ranking.</p>
                     <div class="mt-6 space-y-4 text-left">
                         <div class="rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-emerald-700">
-                            Pontos conquistados: <span class="text-xl font-bold">{{ score }} XP</span>
+                            Pontos conquistados: <span class="text-xl font-bold">{{ score }} pts</span>
                         </div>
                         <div class="rounded-2xl border border-slate-100 px-4 py-3 text-slate-600">
-                            Perguntas certas: <span class="font-bold">{{ Math.round(score / 50) }} / {{ totalQuestions
-                            }}</span>
+                            Máximo possível: <span class="font-bold">1.000 pontos</span>
+                        </div>
+                        <div class="rounded-2xl border border-slate-100 px-4 py-3 text-slate-600">
+                            Performance: <span class="font-bold">{{ Math.round((score / 1000) * 100) }}%</span>
                         </div>
                     </div>
                     <button type="button"
