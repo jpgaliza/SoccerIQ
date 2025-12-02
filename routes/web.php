@@ -26,15 +26,14 @@ require __DIR__ . '/auth.php';
 // Application pages
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/quiz', function () {
-        return Inertia::render('Quiz');
-    })->name('quiz');
+    Route::get('/quiz', [\App\Http\Controllers\QuizController::class, 'index'])->name('quiz');
+    Route::post('/quiz/start', [\App\Http\Controllers\QuizController::class, 'start'])->name('quiz.start');
+    Route::post('/quiz/answer', [\App\Http\Controllers\QuizController::class, 'answer'])->name('quiz.answer');
+    Route::post('/quiz/finish', [\App\Http\Controllers\QuizController::class, 'finish'])->name('quiz.finish');
 
     Route::get('/history', function () {
         return Inertia::render('GameHistory');

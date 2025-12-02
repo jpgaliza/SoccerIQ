@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,7 @@ class Quiz extends Model
     protected $fillable = [
         'user_id',
         'score',
+        'total_time_seconds',
         'completed_at',
     ];
 
@@ -29,5 +31,12 @@ class Quiz extends Model
     public function answers(): HasMany
     {
         return $this->hasMany(QuizAnswer::class);
+    }
+
+    protected function score(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => max(0, min(1000, (int) $value))
+        );
     }
 }

@@ -8,22 +8,15 @@ const props = defineProps({
     overview: {
         type: Object,
         default: () => ({
-            rank: 8,
-            totalScore: 7200,
-            accuracy: 72,
-            quizzesTaken: 5,
+            rank: null,
+            bestScore: 0,
+            accuracy: 0,
+            quizzesTaken: 0,
         }),
     },
     leaderboard: {
         type: Array,
-        default: () => [
-            { rank: 1, player: 'João Silva', score: 9200, time: '12:34', accuracy: 92 },
-            { rank: 2, player: 'Maria Santos', score: 8950, time: '13:22', accuracy: 89 },
-            { rank: 3, player: 'Carlos Oliveira', score: 8600, time: '14:15', accuracy: 86 },
-            { rank: 4, player: 'Ana Costa', score: 8200, time: '15:45', accuracy: 82 },
-            { rank: 5, player: 'Pedro Alves', score: 7800, time: '16:30', accuracy: 78 },
-            { rank: 6, player: 'Lúcia Ferreira', score: 7500, time: '17:00', accuracy: 75 },
-        ],
+        default: () => [],
     },
 });
 
@@ -34,9 +27,9 @@ const metricCards = computed(() => [
         helper: 'Ranking global',
     },
     {
-        label: 'Pontuação total',
-        value: props.overview?.totalScore ? props.overview.totalScore.toLocaleString('pt-BR', { minimumFractionDigits: 0 }) : '—',
-        helper: 'Pontos acumulados',
+        label: 'Melhor pontuação',
+        value: props.overview?.bestScore ? props.overview.bestScore.toLocaleString('pt-BR', { minimumFractionDigits: 0 }) : '—',
+        helper: 'Maior pontuação obtida',
     },
     {
         label: 'Precisão',
@@ -77,10 +70,10 @@ const metricCards = computed(() => [
                         class="rounded-button bg-emerald-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-200 transition hover:bg-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2">
                     Iniciar novo quiz
                     </Link>
-                    <Link :href="route('history')"
+                    <!-- <Link :href="route('history')"
                         class="rounded-button border border-emerald-200 px-6 py-3 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200 focus-visible:ring-offset-2">
                     Ver histórico
-                    </Link>
+                    </Link> -->
                 </div>
                 <LeaderboardTable :players="props.leaderboard" />
             </div>
