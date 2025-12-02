@@ -88,7 +88,7 @@ class RankingTestSeeder extends Seeder
 
         // Precisões possíveis: múltiplos de 10 de 10% a 100%
         $possibleAccuracies = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-        
+
         foreach ($testUsers as $index => $userData) {
             $user = User::firstOrCreate(
                 ['email' => $userData['email']],
@@ -111,11 +111,11 @@ class RankingTestSeeder extends Seeder
                 ]);
 
                 $selectedQuestions = $questions->random($questionCount);
-                
+
                 // Escolher uma precisão específica múltipla de 10
                 $targetAccuracyPercent = $possibleAccuracies[array_rand($possibleAccuracies)];
                 $correctAnswersNeeded = (int) round(($targetAccuracyPercent / 100) * $questionCount);
-                
+
                 $totalScore = 0;
                 $totalTimeSeconds = 0;
                 $correctCount = 0;
@@ -129,7 +129,7 @@ class RankingTestSeeder extends Seeder
                     // Determinar se deve ser correta baseado na precisão desejada
                     $remainingQuestions = $questionCount - $questionIndex + 1;
                     $correctsStillNeeded = $correctAnswersNeeded - $correctCount;
-                    
+
                     if ($correctsStillNeeded >= $remainingQuestions) {
                         // Precisa acertar esta e todas as restantes
                         $isCorrect = true;
