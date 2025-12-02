@@ -9,7 +9,7 @@ const props = defineProps({
         type: Object,
         default: () => ({
             rank: null,
-            totalScore: 0,
+            bestScore: 0,
             accuracy: 0,
             quizzesTaken: 0,
         }),
@@ -27,9 +27,9 @@ const metricCards = computed(() => [
         helper: 'Ranking global',
     },
     {
-        label: 'Pontuação total',
-        value: props.overview?.totalScore ? props.overview.totalScore.toLocaleString('pt-BR', { minimumFractionDigits: 0 }) : '—',
-        helper: 'Pontos acumulados',
+        label: 'Melhor pontuação',
+        value: props.overview?.bestScore ? props.overview.bestScore.toLocaleString('pt-BR', { minimumFractionDigits: 0 }) : '—',
+        helper: 'Maior pontuação obtida',
     },
     {
         label: 'Precisão',

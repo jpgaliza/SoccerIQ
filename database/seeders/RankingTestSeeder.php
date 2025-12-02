@@ -13,6 +13,12 @@ class RankingTestSeeder extends Seeder
 {
     public function run(): void
     {
+        // Remover usuários indesejados do ranking
+        User::where('email', 'user@test.com')
+            ->orWhere('name', 'Usuario Logado')
+            ->orWhere('name', 'Usuário Logado')
+            ->delete();
+
         // Criar algumas perguntas de exemplo se não existirem
         if (Question::count() == 0) {
             $questions = [
@@ -55,12 +61,35 @@ class RankingTestSeeder extends Seeder
             ['name' => 'Carlos Oliveira', 'email' => 'carlos@example.com'],
             ['name' => 'Ana Costa', 'email' => 'ana@example.com'],
             ['name' => 'Pedro Alves', 'email' => 'pedro@example.com'],
-            ['name' => 'Lúcia Ferreira', 'email' => 'lucia@example.com']
+            ['name' => 'Lúcia Ferreira', 'email' => 'lucia@example.com'],
+            ['name' => 'Bruno Silva', 'email' => 'bruno@example.com'],
+            ['name' => 'Carla Mendes', 'email' => 'carla@example.com'],
+            ['name' => 'Diego Santos', 'email' => 'diego@example.com'],
+            ['name' => 'Elena Rodrigues', 'email' => 'elena@example.com'],
+            ['name' => 'Felipe Costa', 'email' => 'felipe@example.com'],
+            ['name' => 'Gabriela Lima', 'email' => 'gabriela@example.com'],
+            ['name' => 'Hugo Pereira', 'email' => 'hugo@example.com'],
+            ['name' => 'Isabela Martins', 'email' => 'isabela@example.com'],
+            ['name' => 'Júlio Fernandes', 'email' => 'julio@example.com'],
+            ['name' => 'Kelly Barbosa', 'email' => 'kelly@example.com'],
+            ['name' => 'Leonardo Souza', 'email' => 'leonardo@example.com'],
+            ['name' => 'Mariana Gomes', 'email' => 'mariana@example.com'],
+            ['name' => 'Nicolas Almeida', 'email' => 'nicolas@example.com'],
+            ['name' => 'Olivia Cardoso', 'email' => 'olivia@example.com']
         ];
 
         $questions = Question::all();
+        $questionCount = min(10, $questions->count());
 
-        foreach ($testUsers as $userData) {
+        if ($questionCount < 4) {
+            $this->command?->warn('Não há perguntas suficientes para gerar o ranking de teste. Execute o FootballQuestionsSeeder primeiro.');
+            return;
+        }
+
+        // Precisões possíveis: múltiplos de 10 de 10% a 100%
+        $possibleAccuracies = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        
+        foreach ($testUsers as $index => $userData) {
             $user = User::firstOrCreate(
                 ['email' => $userData['email']],
                 [
@@ -70,42 +99,101 @@ class RankingTestSeeder extends Seeder
                 ]
             );
 
-            // Criar entre 2-5 quizzes para cada usuário
-            $numQuizzes = rand(2, 5);
+            // Cada usuário terá entre 3-6 quizzes
+            $numQuizzes = rand(3, 6);
 
             for ($i = 0; $i < $numQuizzes; $i++) {
                 $quiz = Quiz::create([
                     'user_id' => $user->id,
-                    'score' => 0, // Será calculado baseado nas respostas
+                    'score' => 0,
+                    'total_time_seconds' => 0,
                     'completed_at' => Carbon::now()->subDays(rand(1, 30))->subMinutes(rand(5, 30))
                 ]);
 
-                // Criar respostas para 5 perguntas aleatórias
-                $selectedQuestions = $questions->random(5);
-                $correctAnswers = 0;
+                $selectedQuestions = $questions->random($questionCount);
+                
+                // Escolher uma precisão específica múltipla de 10
+                $targetAccuracyPercent = $possibleAccuracies[array_rand($possibleAccuracies)];
+                $correctAnswersNeeded = (int) round(($targetAccuracyPercent / 100) * $questionCount);
+                
+                $totalScore = 0;
+                $totalTimeSeconds = 0;
+                $correctCount = 0;
+                $questionIndex = 0;
 
                 foreach ($selectedQuestions as $question) {
-                    // 70% de chance de acertar para dados realistas
-                    $isCorrect = rand(1, 100) <= 70;
-                    $userAnswer = $isCorrect ? $question->correct_answer : rand(0, 3);
+                    $questionIndex++;
+                    $responseTime = rand(8, 25); // Tempo de resposta variado
+                    $totalTimeSeconds += $responseTime;
+
+                    // Determinar se deve ser correta baseado na precisão desejada
+                    $remainingQuestions = $questionCount - $questionIndex + 1;
+                    $correctsStillNeeded = $correctAnswersNeeded - $correctCount;
+                    
+                    if ($correctsStillNeeded >= $remainingQuestions) {
+                        // Precisa acertar esta e todas as restantes
+                        $isCorrect = true;
+                    } elseif ($correctsStillNeeded <= 0) {
+                        // Já atingiu o número necessário
+                        $isCorrect = false;
+                    } else {
+                        // Distribuir aleatoriamente as corretas restantes
+                        $isCorrect = rand(1, $remainingQuestions) <= $correctsStillNeeded;
+                    }
+
+                    $userAnswer = $this->determineUserAnswer($question, $isCorrect);
 
                     QuizAnswer::create([
                         'quiz_id' => $quiz->id,
                         'question_id' => $question->id,
-                        'user_answer' => (string) $userAnswer,
+                        'user_answer' => $userAnswer,
                         'is_correct' => $isCorrect
                     ]);
 
                     if ($isCorrect) {
-                        $correctAnswers++;
+                        $correctCount++;
+                        $speedFactor = max(0, 30 - $responseTime) / 30;
+                        $points = (int) round(50 + (50 * $speedFactor));
+                        $totalScore += $points;
                     }
                 }
 
-                // Atualizar score do quiz (100 pontos por resposta correta)
-                $quiz->update(['score' => $correctAnswers * 10]);
+                $quiz->update([
+                    'score' => min(1000, $totalScore),
+                    'total_time_seconds' => max(60, $totalTimeSeconds),
+                ]);
             }
         }
 
         $this->command->info('Dados de teste para ranking criados com sucesso!');
+    }
+
+    private function determineUserAnswer(Question $question, bool $isCorrect): string
+    {
+        $correctAnswer = (string) $question->correct_answer;
+
+        if ($isCorrect) {
+            return $correctAnswer;
+        }
+
+        $options = collect($question->options ?? []);
+        $isIndexBased = ctype_digit($correctAnswer);
+
+        if ($isIndexBased) {
+            $optionPool = collect(range(0, max(0, $options->count() - 1)))
+                ->map(fn($value) => (string) $value)
+                ->reject(fn($value) => $value === $correctAnswer)
+                ->values();
+        } else {
+            $optionPool = $options
+                ->reject(fn($value) => (string) $value === $correctAnswer)
+                ->values();
+        }
+
+        if ($optionPool->isEmpty()) {
+            return $correctAnswer;
+        }
+
+        return (string) $optionPool->random();
     }
 }

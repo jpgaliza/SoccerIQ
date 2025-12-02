@@ -29,10 +29,14 @@ const feedbackType = ref('neutral');
 const quizId = ref(null);
 const isLoading = ref(false);
 
+// Dados finais do quiz
+const finalQuizData = ref(null);
+
 // Timer vars
 const timeLeft = ref(30);
 const timer = ref(null);
 const questionStartTime = ref(null);
+const quizStartTime = ref(null);
 
 const totalQuestions = props.questions.length;
 const currentQuestion = computed(() => props.questions[currentQuestionIndex.value]);
@@ -64,13 +68,22 @@ const formatTime = (seconds) => {
     return `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}`;
 };
 
+const formatTotalTime = (totalSeconds) => {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}min ${seconds}s`;
+};
+
 const startTimer = () => {
     timeLeft.value = 30;
     questionStartTime.value = Date.now();
     timer.value = setInterval(() => {
-        timeLeft.value--;
-        if (timeLeft.value <= 0) {
-            handleTimeUp();
+        if (timeLeft.value > 0) {
+            timeLeft.value--;
+            if (timeLeft.value <= 0) {
+                timeLeft.value = 0;
+                handleTimeUp();
+            }
         }
     }, 1000);
 };
@@ -84,7 +97,8 @@ const stopTimer = () => {
 
 const handleTimeUp = () => {
     if (!isAnswerRevealed.value) {
-        // Tempo esgotado, marcar como incorreta
+        stopTimer(); // Parar timer quando tempo esgota
+        timeLeft.value = 0;
         selectedOption.value = null;
         handlePrimaryAction();
     }
@@ -102,6 +116,7 @@ const startQuiz = async () => {
     try {
         const response = await axios.post(route('quiz.start'));
         quizId.value = response.data.quiz_id;
+        quizStartTime.value = Date.now();
         startTimer();
     } catch (error) {
         console.error('Erro ao iniciar quiz:', error);
@@ -109,9 +124,7 @@ const startQuiz = async () => {
     } finally {
         isLoading.value = false;
     }
-};
-
-const handlePrimaryAction = async () => {
+}; const handlePrimaryAction = async () => {
     if (!isAnswerRevealed.value) {
         stopTimer();
         isAnswerRevealed.value = true;
@@ -150,8 +163,16 @@ const handlePrimaryAction = async () => {
     if (currentQuestionIndex.value === totalQuestions - 1) {
         // Finalizar quiz
         isLoading.value = true;
+        const totalTimeSeconds = Math.floor((Date.now() - quizStartTime.value) / 1000);
         try {
-            await axios.post(route('quiz.finish'), { quiz_id: quizId.value });
+            const response = await axios.post(route('quiz.finish'), {
+                quiz_id: quizId.value,
+                total_time_seconds: totalTimeSeconds
+            });
+            finalQuizData.value = {
+                ...response.data.quiz,
+                total_time_seconds: totalTimeSeconds
+            };
             showSummaryModal.value = true;
         } catch (error) {
             console.error('Erro ao finalizar quiz:', error);
@@ -355,10 +376,11 @@ onUnmounted(() => {
                             Pontos conquistados: <span class="text-xl font-bold">{{ score }} pts</span>
                         </div>
                         <div class="rounded-2xl border border-slate-100 px-4 py-3 text-slate-600">
-                            Máximo possível: <span class="font-bold">1.000 pontos</span>
+                            Tempo total: <span class="font-bold">{{ finalQuizData ?
+                                formatTotalTime(finalQuizData.total_time_seconds) : '—' }}</span>
                         </div>
                         <div class="rounded-2xl border border-slate-100 px-4 py-3 text-slate-600">
-                            Performance: <span class="font-bold">{{ Math.round((score / 1000) * 100) }}%</span>
+                            Precisão: <span class="font-bold">{{ finalQuizData ? finalQuizData.accuracy : 0 }}%</span>
                         </div>
                     </div>
                     <button type="button"

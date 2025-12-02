@@ -103,7 +103,8 @@ class QuizController extends Controller
     public function finish(Request $request)
     {
         $data = $request->validate([
-            'quiz_id' => 'required|exists:quizzes,id'
+            'quiz_id' => 'required|exists:quizzes,id',
+            'total_time_seconds' => 'required|integer|min:1'
         ]);
 
         $quiz = Quiz::findOrFail($data['quiz_id']);
@@ -115,6 +116,7 @@ class QuizController extends Controller
 
         $quiz->update([
             'completed_at' => now(),
+            'total_time_seconds' => $data['total_time_seconds'],
         ]);
 
         // Calcular estatísticas do quiz

@@ -28,91 +28,116 @@ class DashboardController extends Controller
 
     private function getUserStats(User $user)
     {
-        $completedQuizzes = $user->completedQuizzes()->get();
+        $completedQuizzes = $user->completedQuizzes()->with('answers')->get();
         $totalQuizzes = $completedQuizzes->count();
 
         if ($totalQuizzes == 0) {
             return [
                 'rank' => null,
-                'totalScore' => 0,
+                'bestScore' => 0,
                 'accuracy' => 0,
                 'quizzesTaken' => 0,
             ];
         }
 
-        $totalScore = $completedQuizzes->sum('score');
+        // Encontrar o melhor quiz (maior score, menor tempo como desempate)
+        $bestQuiz = $completedQuizzes
+            ->sort(function ($a, $b) {
+                if ($a->score === $b->score) {
+                    return ($a->total_time_seconds ?? PHP_INT_MAX) <=> ($b->total_time_seconds ?? PHP_INT_MAX);
+                }
+                return $b->score <=> $a->score;
+            })
+            ->first();
 
-        // Calcular accuracy
-        $totalAnswers = 0;
-        $correctAnswers = 0;
-
-        foreach ($completedQuizzes as $quiz) {
-            $answers = $quiz->answers;
-            $totalAnswers += $answers->count();
-            $correctAnswers += $answers->where('is_correct', true)->count();
-        }
-
+        // Calcular accuracy do melhor quiz
+        $answers = $bestQuiz->answers;
+        $totalAnswers = $answers->count();
+        $correctAnswers = $answers->where('is_correct', true)->count();
         $accuracy = $totalAnswers > 0 ? round(($correctAnswers / $totalAnswers) * 100) : 0;
 
-        // Calcular posição no ranking
-        $rank = User::whereHas('completedQuizzes')
-            ->withSum('completedQuizzes as total_score', 'score')
-            ->having('total_score', '>', $totalScore)
-            ->count() + 1;
+        // Calcular posição no ranking baseada no melhor score com mesmo critério da tabela
+        $rankedUsers = $this->buildRankedUsers();
+        $rank = $rankedUsers->search(fn($entry) => $entry['user_id'] === $user->id);
+        $rank = $rank === false ? null : $rank + 1;
 
         return [
             'rank' => $rank,
-            'totalScore' => $totalScore,
+            'bestScore' => $bestQuiz->score,
             'accuracy' => $accuracy,
             'quizzesTaken' => $totalQuizzes,
         ];
     }
 
-    private function getLeaderboard($limit = 10)
+    private function getLeaderboard($limit = 30)
     {
-        // Consulta otimizada com todas as agregações em uma única query
-        $users = User::select([
-            'users.id',
-            'users.name',
-            DB::raw('COALESCE(SUM(quizzes.score), 0) as total_score'),
-            DB::raw('COUNT(quizzes.id) as completed_quizzes_count'),
-            DB::raw('COALESCE(SUM(CASE WHEN quiz_answers.is_correct = 1 THEN 1 ELSE 0 END), 0) as correct_answers'),
-            DB::raw('COUNT(quiz_answers.id) as total_answers'),
-            DB::raw('ROUND(AVG(CASE WHEN quizzes.completed_at IS NOT NULL THEN 
-                    (JULIANDAY(quizzes.completed_at) - JULIANDAY(quizzes.created_at)) * 24 * 60 
-                    ELSE NULL END)) as avg_minutes')
-        ])
-            ->leftJoin('quizzes', function ($join) {
-                $join->on('users.id', '=', 'quizzes.user_id')
-                    ->whereNotNull('quizzes.completed_at');
-            })
-            ->leftJoin('quiz_answers', 'quizzes.id', '=', 'quiz_answers.quiz_id')
-            ->groupBy('users.id', 'users.name')
-            ->having('total_score', '>', 0)
-            ->orderBy('total_score', 'desc')
-            ->limit($limit)
-            ->get();
+        $users = $this->buildRankedUsers()
+            ->take($limit)
+            ->values();
 
         $leaderboard = [];
 
         foreach ($users as $index => $user) {
-            $accuracy = $user->total_answers > 0
-                ? round(($user->correct_answers / $user->total_answers) * 100)
-                : 0;
-
-            $averageTime = $user->avg_minutes
-                ? sprintf('%d:%02d', intval(floor($user->avg_minutes / 60)), $user->avg_minutes % 60)
+            $hasTime = is_int($user['time_seconds']) && $user['time_seconds'] !== PHP_INT_MAX;
+            $timeFormatted = $hasTime
+                ? sprintf('%d:%02d', intval(floor($user['time_seconds'] / 60)), $user['time_seconds'] % 60)
                 : '—';
 
             $leaderboard[] = [
                 'rank' => $index + 1,
-                'player' => $user->name,
-                'score' => (int) $user->total_score,
-                'time' => $averageTime,
-                'accuracy' => $accuracy,
+                'player' => $user['name'],
+                'score' => (int) $user['best_score'],
+                'time' => $timeFormatted,
+                'accuracy' => $user['accuracy'],
             ];
         }
 
         return $leaderboard;
+    }
+
+    private function buildRankedUsers()
+    {
+        return User::whereHas('completedQuizzes')
+            ->with(['completedQuizzes.answers'])
+            ->get()
+            ->map(function ($user) {
+                $completedQuizzes = $user->completedQuizzes;
+
+                if ($completedQuizzes->isEmpty()) {
+                    return null;
+                }
+
+                $bestQuiz = $completedQuizzes
+                    ->sort(function ($a, $b) {
+                        if ($a->score === $b->score) {
+                            return ($a->total_time_seconds ?? PHP_INT_MAX) <=> ($b->total_time_seconds ?? PHP_INT_MAX);
+                        }
+                        return $b->score <=> $a->score;
+                    })
+                    ->first();
+
+                $answers = $bestQuiz->answers;
+                $totalAnswers = $answers->count();
+                $correctAnswers = $answers->where('is_correct', true)->count();
+                $accuracy = $totalAnswers > 0 ? round(($correctAnswers / $totalAnswers) * 100) : 0;
+
+                return [
+                    'user_id' => $user->id,
+                    'name' => $user->name,
+                    'best_score' => $bestQuiz->score,
+                    'accuracy' => $accuracy,
+                    'time_seconds' => $bestQuiz->total_time_seconds ?? PHP_INT_MAX,
+                ];
+            })
+            ->filter(function ($user) {
+                return $user && $user['best_score'] > 0;
+            })
+            ->sort(function ($a, $b) {
+                if ($a['best_score'] === $b['best_score']) {
+                    return ($a['time_seconds'] ?? PHP_INT_MAX) <=> ($b['time_seconds'] ?? PHP_INT_MAX);
+                }
+                return $b['best_score'] <=> $a['best_score'];
+            })
+            ->values();
     }
 }
