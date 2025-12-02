@@ -8,7 +8,7 @@ import { Link } from '@inertiajs/vue3';
         class="flex min-h-screen items-center justify-center bg-gradient-to-b from-white via-emerald-50 to-white px-4 py-10">
         <div class="w-full max-w-md space-y-8">
             <div class="flex justify-center">
-                <Link href="/">
+                <Link :href="route('welcome')">
                 <ApplicationLogo class="text-slate-900" />
                 </Link>
             </div>

@@ -22,3 +22,21 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+// Application pages
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/quiz', function () {
+        return Inertia::render('Quiz');
+    })->name('quiz');
+
+    Route::get('/history', function () {
+        return Inertia::render('GameHistory');
+    })->name('history');
+});
