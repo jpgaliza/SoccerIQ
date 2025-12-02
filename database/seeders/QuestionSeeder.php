@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Question;
 use Illuminate\Database\Seeder;
+use App\Models\Question;
 
 class QuestionSeeder extends Seeder
 {
@@ -11,95 +11,55 @@ class QuestionSeeder extends Seeder
     {
         $questions = [
             [
-                'question_text' => 'Qual é a capital do Brasil?',
-                'option_a' => 'Rio de Janeiro',
-                'option_b' => 'Brasília',
-                'option_c' => 'São Paulo',
-                'option_d' => 'Salvador',
-                'correct_option' => 'b',
-                'time_limit' => 20
+                'question' => 'Qual linguagem o Laravel utiliza?',
+                'options' => ['Ruby', 'Python', 'PHP', 'Java'],
+                'correct_answer' => 'PHP',
             ],
             [
-                'question_text' => '2 + 2 = ?',
-                'option_a' => '3',
-                'option_b' => '4',
-                'option_c' => '5',
-                'option_d' => '6',
-                'correct_option' => 'b',
-                'time_limit' => 20
+                'question' => 'Qual comando cria uma migration no Laravel?',
+                'options' => ['php artisan make:migrate', 'php artisan migrate:make', 'php artisan make:migration', 'php artisan create:migration'],
+                'correct_answer' => 'php artisan make:migration',
             ],
             [
-                'question_text' => 'Qual linguagem é usada em navegadores web?',
-                'option_a' => 'Python',
-                'option_b' => 'Java',
-                'option_c' => 'JavaScript',
-                'option_d' => 'C++',
-                'correct_option' => 'c',
-                'time_limit' => 20
+                'question' => 'Qual ORM o Laravel utiliza?',
+                'options' => ['Eloquent', 'Hibernate', 'Doctrine', 'ActiveRecord'],
+                'correct_answer' => 'Eloquent',
             ],
             [
-                'question_text' => 'Quantos lados tem um triângulo?',
-                'option_a' => '2',
-                'option_b' => '3',
-                'option_c' => '4',
-                'option_d' => '5',
-                'correct_option' => 'b',
-                'time_limit' => 20
+                'question' => 'Qual comando inicia o servidor do Laravel?',
+                'options' => ['php artisan run', 'php artisan start', 'php artisan serve', 'php artisan open'],
+                'correct_answer' => 'php artisan serve',
             ],
             [
-                'question_text' => 'Qual é a cor do céu em um dia claro?',
-                'option_a' => 'Verde',
-                'option_b' => 'Vermelho',
-                'option_c' => 'Azul',
-                'option_d' => 'Amarelo',
-                'correct_option' => 'c',
-                'time_limit' => 20
+                'question' => 'Qual arquivo define as rotas web no Laravel?',
+                'options' => ['routes/api.php', 'routes/web.php', 'public/index.php', 'app/routes.php'],
+                'correct_answer' => 'routes/web.php',
             ],
             [
-                'question_text' => 'Quem escreveu "Dom Casmurro"?',
-                'option_a' => 'Machado de Assis',
-                'option_b' => 'José de Alencar',
-                'option_c' => 'Carlos Drummond',
-                'option_d' => 'Clarice Lispector',
-                'correct_option' => 'a',
-                'time_limit' => 20
+                'question' => 'Quantos estados tem o Brasil?',
+                'options' => ['26', '27', '25', '28'],
+                'correct_answer' => '27',
             ],
             [
-                'question_text' => 'Qual é o maior planeta do sistema solar?',
-                'option_a' => 'Terra',
-                'option_b' => 'Júpiter',
-                'option_c' => 'Saturno',
-                'option_d' => 'Marte',
-                'correct_option' => 'b',
-                'time_limit' => 20
+                'question' => 'Qual é a capital do Brasil?',
+                'options' => ['Rio de Janeiro', 'São Paulo', 'Brasília', 'Salvador'],
+                'correct_answer' => 'Brasília',
             ],
             [
-                'question_text' => 'Quantos dias tem uma semana?',
-                'option_a' => '5',
-                'option_b' => '6',
-                'option_c' => '7',
-                'option_d' => '8',
-                'correct_option' => 'c',
-                'time_limit' => 20
+                'question' => 'Qual é o maior planeta do sistema solar?',
+                'options' => ['Terra', 'Júpiter', 'Saturno', 'Marte'],
+                'correct_answer' => 'Júpiter',
             ],
             [
-                'question_text' => 'Qual é o oposto de "dia"?',
-                'option_a' => 'Tarde',
-                'option_b' => 'Noite',
-                'option_c' => 'Manhã',
-                'option_d' => 'Sol',
-                'correct_option' => 'b',
-                'time_limit' => 20
+                'question' => 'Quem escreveu "Dom Casmurro"?',
+                'options' => ['Machado de Assis', 'Carlos Drummond', 'Clarice Lispector', 'Jorge Amado'],
+                'correct_answer' => 'Machado de Assis',
             ],
             [
-                'question_text' => 'Que animal é conhecido como "rei da selva"?',
-                'option_a' => 'Elefante',
-                'option_b' => 'Leão',
-                'option_c' => 'Tigre',
-                'option_d' => 'Girafa',
-                'correct_option' => 'b',
-                'time_limit' => 20
-            ]
+                'question' => 'Qual é a fórmula da água?',
+                'options' => ['H2O', 'CO2', 'NaCl', 'O2'],
+                'correct_answer' => 'H2O',
+            ],
         ];
 
         foreach ($questions as $question) {
