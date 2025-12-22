@@ -22,24 +22,24 @@ const props = defineProps({
 
 const metricCards = computed(() => [
     {
-        label: 'Sua posição',
+        label: 'Your Position',
         value: props.overview?.rank ? `#${props.overview.rank}` : '—',
-        helper: 'Ranking global',
+        helper: 'Global Ranking',
     },
     {
-        label: 'Melhor pontuação',
-        value: props.overview?.bestScore ? props.overview.bestScore.toLocaleString('pt-BR', { minimumFractionDigits: 0 }) : '—',
-        helper: 'Maior pontuação obtida',
+        label: 'Best Score',
+        value: props.overview?.bestScore !== undefined && props.overview?.bestScore !== null ? props.overview.bestScore.toLocaleString('en-US', { minimumFractionDigits: 0 }) : '—',
+        helper: 'Highest score achieved',
     },
     {
-        label: 'Precisão',
-        value: props.overview?.accuracy ? `${props.overview.accuracy}%` : '—',
-        helper: 'Taxa de acertos',
+        label: 'Accuracy',
+        value: props.overview?.accuracy !== undefined && props.overview?.accuracy !== null ? `${props.overview.accuracy}%` : '—',
+        helper: 'Correct answer rate',
     },
     {
-        label: 'Quizzes jogados',
-        value: props.overview?.quizzesTaken ?? '—',
-        helper: 'Partidas concluídas',
+        label: 'Quizzes Taken',
+        value: props.overview?.quizzesTaken !== undefined && props.overview?.quizzesTaken !== null ? props.overview.quizzesTaken : '—',
+        helper: 'Completed games',
     },
 ]);
 </script>
@@ -68,12 +68,12 @@ const metricCards = computed(() => [
                 <div class="flex flex-wrap gap-4">
                     <Link :href="route('quiz')"
                         class="rounded-button bg-emerald-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-200 transition hover:bg-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2">
-                    Iniciar novo quiz
+                        Start new quiz
                     </Link>
-                    <!-- <Link :href="route('history')"
+                    <Link :href="route('history')"
                         class="rounded-button border border-emerald-200 px-6 py-3 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200 focus-visible:ring-offset-2">
-                    Ver histórico
-                    </Link> -->
+                        View history
+                    </Link>
                 </div>
                 <LeaderboardTable :players="props.leaderboard" />
             </div>

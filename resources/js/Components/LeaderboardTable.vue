@@ -91,9 +91,9 @@ const nextButtonClass = computed(() =>
                 </div>
                 <div>
                     <p class="text-sm font-semibold uppercase tracking-wide text-slate-400">
-                        Ranking global
+                        Global Ranking
                     </p>
-                    <p class="text-xl font-bold text-slate-900">Desempenho dos melhores jogadores</p>
+                    <p class="text-xl font-bold text-slate-900">Top players performance</p>
                 </div>
             </div>
         </header>
@@ -101,38 +101,38 @@ const nextButtonClass = computed(() =>
             <table class="w-full table-auto text-left text-sm text-slate-600">
                 <thead class="text-xs uppercase tracking-wider text-slate-400">
                     <tr>
-                        <th class="pb-3 font-semibold">Posição</th>
-                        <th class="pb-3 font-semibold">Jogador</th>
-                        <th class="pb-3 font-semibold">Pontuação</th>
-                        <th class="pb-3 font-semibold">Tempo</th>
-                        <th class="pb-3 font-semibold">Precisão</th>
+                        <th class="pb-3 font-semibold">Position</th>
+                        <th class="pb-3 font-semibold">Player</th>
+                        <th class="pb-3 font-semibold">Score</th>
+                        <th class="pb-3 font-semibold">Time</th>
+                        <th class="pb-3 font-semibold">Accuracy</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-base text-slate-800">
                     <tr v-for="player in paginatedPlayers" :key="player.rank" class="hover:bg-emerald-50/30">
                         <td class="py-4 font-semibold text-emerald-600">#{{ player.rank }}</td>
                         <td class="py-4">{{ player.player }}</td>
-                        <td class="py-4 font-semibold">{{ player.score.toLocaleString('pt-BR') }}</td>
+                        <td class="py-4 font-semibold">{{ player.score.toLocaleString('en-US') }}</td>
                         <td class="py-4 text-slate-500">{{ player.time }}</td>
                         <td class="py-4 text-slate-500">{{ player.accuracy }}%</td>
                     </tr>
                     <tr v-if="!paginatedPlayers.length">
-                        <td class="py-6 text-center text-slate-400" colspan="5">Nenhum jogador encontrado.</td>
+                        <td class="py-6 text-center text-slate-400" colspan="5">No players found.</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="mt-4 flex flex-col gap-3 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-            <p v-if="summary.total">Mostrando {{ summary.start }}-{{ summary.end }} de {{ summary.total }} jogadores</p>
-            <p v-else>Nenhum resultado para exibir.</p>
+            <p v-if="summary.total">Showing {{ summary.start }}-{{ summary.end }} of {{ summary.total }} players</p>
+            <p v-else>No results to display.</p>
             <div class="flex items-center gap-2">
                 <button type="button" :class="prevButtonClass" @click="goToPage('prev')" :disabled="currentPage === 1">
-                    Anterior
+                    Previous
                 </button>
-                <span class="px-2 text-slate-500">Página {{ currentPage }} de {{ totalPages }}</span>
+                <span class="px-2 text-slate-500">Page {{ currentPage }} of {{ totalPages }}</span>
                 <button type="button" :class="nextButtonClass" @click="goToPage('next')"
                     :disabled="currentPage === totalPages">
-                    Próxima
+                    Next
                 </button>
             </div>
         </div>

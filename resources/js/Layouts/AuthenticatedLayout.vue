@@ -21,7 +21,7 @@ const showingNavigationDropdown = ref(false);
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center">
                                 <Link :href="route('dashboard')">
-                                <ApplicationLogo class="block h-9 w-auto text-slate-900" />
+                                    <ApplicationLogo class="block h-9 w-auto text-slate-900" />
                                 </Link>
                             </div>
 
@@ -31,7 +31,7 @@ const showingNavigationDropdown = ref(false);
                                     Dashboard
                                 </NavLink>
                                 <NavLink :href="route('history')" :active="route().current('history')">
-                                    Histórico
+                                    History
                                 </NavLink>
                             </div>
                         </div>
@@ -58,10 +58,10 @@ const showingNavigationDropdown = ref(false);
 
                                     <template #content>
                                         <DropdownLink :href="route('profile.edit')">
-                                            Perfil
+                                            Profile
                                         </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
-                                            Sair
+                                            Log Out
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
@@ -103,9 +103,9 @@ const showingNavigationDropdown = ref(false);
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
-                        <!-- <ResponsiveNavLink :href="route('history')" :active="route().current('history')">
-                            Histórico
-                        </ResponsiveNavLink> -->
+                        <ResponsiveNavLink :href="route('history')" :active="route().current('history')">
+                            History
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->

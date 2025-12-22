@@ -13,48 +13,12 @@ class RankingTestSeeder extends Seeder
 {
     public function run(): void
     {
-        // Remover usuários indesejados do ranking
         User::where('email', 'user@test.com')
             ->orWhere('name', 'Usuario Logado')
             ->orWhere('name', 'Usuário Logado')
             ->delete();
 
-        // Criar algumas perguntas de exemplo se não existirem
-        if (Question::count() == 0) {
-            $questions = [
-                [
-                    'question' => 'Qual país sediou a Copa do Mundo de 2018?',
-                    'options' => ['Brasil', 'Rússia', 'França', 'Alemanha'],
-                    'correct_answer' => '1' // Index da opção correta (Rússia)
-                ],
-                [
-                    'question' => 'Quantos jogadores tem uma equipe de futebol em campo?',
-                    'options' => ['10', '11', '12', '9'],
-                    'correct_answer' => '1' // Index da opção correta (11)
-                ],
-                [
-                    'question' => 'Qual é o maior estádio do mundo?',
-                    'options' => ['Maracanã', 'Camp Nou', 'May Day Stadium', 'Wembley'],
-                    'correct_answer' => '2' // Index da opção correta (May Day Stadium)
-                ],
-                [
-                    'question' => 'Em que ano foi realizada a primeira Copa do Mundo?',
-                    'options' => ['1930', '1934', '1928', '1932'],
-                    'correct_answer' => '0' // Index da opção correta (1930)
-                ],
-                [
-                    'question' => 'Qual jogador possui mais títulos de Ballon d\'Or?',
-                    'options' => ['Cristiano Ronaldo', 'Lionel Messi', 'Pelé', 'Maradona'],
-                    'correct_answer' => '1' // Index da opção correta (Lionel Messi)
-                ]
-            ];
 
-            foreach ($questions as $questionData) {
-                Question::create($questionData);
-            }
-        }
-
-        // Criar usuários de teste se não existirem
         $testUsers = [
             ['name' => 'João Silva', 'email' => 'joao@example.com'],
             ['name' => 'Maria Santos', 'email' => 'maria@example.com'],
@@ -82,11 +46,11 @@ class RankingTestSeeder extends Seeder
         $questionCount = min(10, $questions->count());
 
         if ($questionCount < 4) {
-            $this->command?->warn('Não há perguntas suficientes para gerar o ranking de teste. Execute o FootballQuestionsSeeder primeiro.');
+            $this->command?->warn('Not enough questions to generate test ranking. Run FootballQuestionsSeeder first.');
             return;
         }
 
-        // Precisões possíveis: múltiplos de 10 de 10% a 100%
+        // Possible accuracies: multiples of 10 from 10% to 100%
         $possibleAccuracies = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
         foreach ($testUsers as $index => $userData) {
@@ -99,7 +63,7 @@ class RankingTestSeeder extends Seeder
                 ]
             );
 
-            // Cada usuário terá entre 3-6 quizzes
+            // Each user will have between 3-6 quizzes
             $numQuizzes = rand(3, 6);
 
             for ($i = 0; $i < $numQuizzes; $i++) {
@@ -112,7 +76,7 @@ class RankingTestSeeder extends Seeder
 
                 $selectedQuestions = $questions->random($questionCount);
 
-                // Escolher uma precisão específica múltipla de 10
+                // Choose a specific accuracy multiple of 10
                 $targetAccuracyPercent = $possibleAccuracies[array_rand($possibleAccuracies)];
                 $correctAnswersNeeded = (int) round(($targetAccuracyPercent / 100) * $questionCount);
 
@@ -123,21 +87,21 @@ class RankingTestSeeder extends Seeder
 
                 foreach ($selectedQuestions as $question) {
                     $questionIndex++;
-                    $responseTime = rand(8, 25); // Tempo de resposta variado
+                    $responseTime = rand(8, 25); // Varied response time
                     $totalTimeSeconds += $responseTime;
 
-                    // Determinar se deve ser correta baseado na precisão desejada
+                    // Determine if answer should be correct based on desired accuracy
                     $remainingQuestions = $questionCount - $questionIndex + 1;
                     $correctsStillNeeded = $correctAnswersNeeded - $correctCount;
 
                     if ($correctsStillNeeded >= $remainingQuestions) {
-                        // Precisa acertar esta e todas as restantes
+                        // Must get this and all remaining correct
                         $isCorrect = true;
                     } elseif ($correctsStillNeeded <= 0) {
-                        // Já atingiu o número necessário
+                        // Already reached required number
                         $isCorrect = false;
                     } else {
-                        // Distribuir aleatoriamente as corretas restantes
+                        // Randomly distribute remaining correct answers
                         $isCorrect = rand(1, $remainingQuestions) <= $correctsStillNeeded;
                     }
 
@@ -165,7 +129,7 @@ class RankingTestSeeder extends Seeder
             }
         }
 
-        $this->command->info('Dados de teste para ranking criados com sucesso!');
+        $this->command->info('Test ranking data created successfully!');
     }
 
     private function determineUserAnswer(Question $question, bool $isCorrect): string

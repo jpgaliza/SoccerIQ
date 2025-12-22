@@ -14,204 +14,194 @@ class FootballQuestionsSeeder extends Seeder
 
         $questions = [
             [
-                'question' => 'Quem marcou os dois gols do Brasil na final da Copa do Mundo de 2002?',
-                'options' => ['Rivaldo', 'Ronaldo Fenômeno', 'Ronaldinho Gaúcho', 'Kaká'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Qual clube revelou Neymar antes da sua ida ao Barcelona?',
-                'options' => ['Santos', 'Flamengo', 'Palmeiras', 'São Paulo'],
+                'question' => 'Which manager is most credited with pioneering modern gegenpressing?',
+                'options' => ['Ralf Rangnick', 'Jürgen Klopp', 'Marcelo Bielsa', 'Arrigo Sacchi'],
                 'correct_answer' => '0'
             ],
             [
-                'question' => 'Em que país aconteceu a Copa do Mundo de 2014?',
-                'options' => ['África do Sul', 'Alemanha', 'Brasil', 'Rússia'],
+                'question' => 'Starting from the group stage, how many matches must a club play to lift the UEFA Champions League trophy?',
+                'options' => ['9', '12', '15', '13'],
                 'correct_answer' => '2'
             ],
             [
-                'question' => 'Qual seleção venceu a Eurocopa de 2016?',
-                'options' => ['França', 'Espanha', 'Itália', 'Portugal'],
+                'question' => 'Which tactical system is characterized by a back three and wing-backs providing width?',
+                'options' => ['4-3-3', '3-5-2', '4-2-3-1', '3-4-3'],
+                'correct_answer' => '1'
+            ],
+            [
+                'question' => 'Which club holds the record for most consecutive domestic league titles in top-five European leagues?',
+                'options' => ['Bayern Munich', 'Juventus', 'Real Madrid', 'Celtic'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Who scored the fastest goal in UEFA Champions League history?',
+                'options' => ['Roy Makaay', 'Gualter Fatun', 'Jan Sýkora', 'Kylian Mbappé'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Which statistical metric measures a player’s expected goals contribution from passes and shots?',
+                'options' => ['xG', 'xA', 'npxG', 'xGChain'],
+                'correct_answer' => '1'
+            ],
+            [
+                'question' => 'Which nation won the first FIFA World Cup to be decided by a penalty shootout in the final tournament phase?',
+                'options' => ['West Germany', 'France', 'Argentina', 'Spain'],
+                'correct_answer' => '2'
+            ],
+            [
+                'question' => 'In UEFA two-legged knockout ties, which tie-breaker was abolished across UEFA competitions in 2021?',
+                'options' => ['Away goals rule', 'Extra time', 'Penalty shootout', 'Golden goal'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Which goalkeeper holds the record for the most consecutive clean sheets in the English Premier League (since 1992)?',
+                'options' => ['Petr Čech', 'Ederson', 'Pepe Reina', 'Ben Foster'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Which club completed the highest transfer fee paid for a defender?',
+                'options' => ['Manchester United', 'Liverpool', 'Manchester City', 'Paris Saint-Germain'],
+                'correct_answer' => '2'
+            ],
+            [
+                'question' => 'What is the maximum number of substitutes a team may name on the bench in most UEFA club competitions (recent regulations)?',
+                'options' => ['7', '9', '12', '15'],
+                'correct_answer' => '2'
+            ],
+            [
+                'question' => 'Which nation has produced the most Ballon d\'Or winners through 2024?',
+                'options' => ['Argentina', 'Portugal', 'France', 'Spain'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Which manager famously used the "tiki-taka" philosophy to win multiple major trophies?',
+                'options' => ['Pep Guardiola', 'Carlo Ancelotti', 'Diego Simeone', 'Louis van Gaal'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Who holds the record for the most international goals scored in men\'s football (national teams)?',
+                'options' => ['Ali Daei', 'Cristiano Ronaldo', 'Lionel Messi', 'Mokhtar Dahari'],
+                'correct_answer' => '1'
+            ],
+            [
+                'question' => 'Which club won the inaugural UEFA Europa League (rebranded from UEFA Cup) final after the rebrand in 2009?',
+                'options' => ['Shakhtar Donetsk', 'Atlético Madrid', 'Porto', 'Sevilla'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Which formation is usually described as two holding midfielders shielding the defence and one advanced playmaker?',
+                'options' => ['4-2-3-1', '4-4-2', '3-4-3', '4-1-4-1'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Which competition introduced the Video Assistant Referee (VAR) at the FIFA Club World Cup final first among FIFA tournaments?',
+                'options' => ['2016', '2014', '2018', '2022'],
+                'correct_answer' => '2'
+            ],
+            [
+                'question' => 'Who is the all-time top scorer for the Brazil national team?',
+                'options' => ['Pelé', 'Ronaldo Nazário', 'Neymar', 'Bebeto'],
+                'correct_answer' => '2'
+            ],
+            [
+                'question' => 'Which African nation reached the World Cup quarter-finals in 2022, setting a continental best in that tournament?',
+                'options' => ['Morocco', 'Senegal', 'Cameroon', 'Tunisia'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'What tactical concept describes deliberately dropping a forward into midfield to create numerical superiority?',
+                'options' => ['False nine', 'Target man', 'Poacher', 'Inverted winger'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Which manager won the treble (domestic league, domestic cup, Champions League) with a single club in the 21st century?',
+                'options' => ['Sir Alex Ferguson', 'Pep Guardiola', 'José Mourinho', 'Arsène Wenger'],
+                'correct_answer' => '1'
+            ],
+            [
+                'question' => 'Which rule change shortened the time teams could waste before a throw-in was taken (enforced by referees)?',
+                'options' => ['6-second rule', 'Kick-off delay rule', 'Time-wasting guidance', 'Sin-bin for dissent'],
+                'correct_answer' => '2'
+            ],
+            [
+                'question' => 'Which player scored a hat-trick in a single World Cup match for Argentina in 1958?',
+                'options' => ['Omar Sívori', 'Sándor Kocsis', 'Pelé', 'Mario Kempes'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Which club has the record for most UEFA club competition titles combined (Champions League + Europa/UEFA Cup + Cup Winners Cup)?',
+                'options' => ['AC Milan', 'Real Madrid', 'Sevilla', 'Juventus'],
+                'correct_answer' => '1'
+            ],
+            [
+                'question' => 'What is the name of the advanced metric that values every on-ball action in the build-up to a shot?',
+                'options' => ['xG', 'xGI', 'xGChain', 'xGBuildup'],
+                'correct_answer' => '2'
+            ],
+            [
+                'question' => 'Which player won the Golden Boot at the 2010 FIFA World Cup?',
+                'options' => ['Thomas Müller', 'Diego Forlán', 'Wesley Sneijder', 'David Villa'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Which national team is nicknamed "Azzurri"?',
+                'options' => ['Italy', 'Netherlands', 'Greece', 'Sweden'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Which manager is associated with the motto "parking the bus" after a famous Champions League semi-final performance?',
+                'options' => ['José Mourinho', 'Carlo Ancelotti', 'Jupp Heynckes', 'Diego Simeone'],
                 'correct_answer' => '3'
             ],
             [
-                'question' => 'Quantos títulos da Copa do Mundo o Brasil possui?',
-                'options' => ['3', '4', '5', '6'],
-                'correct_answer' => '2'
-            ],
-            [
-                'question' => 'Qual jogador possui mais Bolas de Ouro da FIFA?',
-                'options' => ['Cristiano Ronaldo', 'Lionel Messi', 'Pelé', 'Maradona'],
+                'question' => 'What month and year did the Premier League first permit five substitutes per match (temporary rule)?',
+                'options' => ['March 2020', 'June 2020', 'August 2020', 'January 2021'],
                 'correct_answer' => '1'
             ],
             [
-                'question' => 'Em que ano foi realizada a primeira Copa do Mundo?',
-                'options' => ['1928', '1930', '1932', '1934'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Qual é o maior estádio do Brasil?',
-                'options' => ['Estádio do Morumbi', 'Arena Corinthians', 'Maracanã', 'Mineirão'],
-                'correct_answer' => '2'
-            ],
-            [
-                'question' => 'Quem é considerado o "Rei do Futebol"?',
-                'options' => ['Maradona', 'Pelé', 'Zico', 'Garrincha'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Qual seleção é conhecida como "La Roja"?',
-                'options' => ['Argentina', 'Chile', 'Espanha', 'Peru'],
-                'correct_answer' => '2'
-            ],
-            [
-                'question' => 'Em que clube Pelé encerrou sua carreira?',
-                'options' => ['Santos', 'New York Cosmos', 'Flamengo', 'São Paulo'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Qual jogador marcou o gol mais rápido em Copas do Mundo?',
-                'options' => ['Hakan Şükür', 'Clint Dempsey', 'Tim Cahill', 'Robbie Keane'],
+                'question' => 'Which club completed the treble of Champions League, domestic league and domestic cup most recently?',
+                'options' => ['Manchester City', 'Bayern Munich', 'Barcelona', 'Inter Milan'],
                 'correct_answer' => '0'
             ],
             [
-                'question' => 'Quantos jogadores compõem uma equipe de futebol em campo?',
-                'options' => ['10', '11', '12', '9'],
+                'question' => 'Which international tournament uses the fair play rule as a tie-breaker before a drawing of lots?',
+                'options' => ['UEFA European Championship', 'FIFA World Cup', 'Copa América', 'African Cup of Nations'],
                 'correct_answer' => '1'
             ],
             [
-                'question' => 'Qual país sediou a Copa do Mundo de 2018?',
-                'options' => ['Brasil', 'Rússia', 'Alemanha', 'França'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Quem é o maior artilheiro da história da Champions League?',
-                'options' => ['Lionel Messi', 'Cristiano Ronaldo', 'Raúl', 'Karim Benzema'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Qual clube tem mais títulos da Champions League?',
-                'options' => ['AC Milan', 'Barcelona', 'Real Madrid', 'Bayern Munich'],
-                'correct_answer' => '2'
-            ],
-            [
-                'question' => 'Em que ano o Brasil conquistou seu primeiro título mundial?',
-                'options' => ['1950', '1958', '1962', '1970'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Qual jogador brasileiro marcou mais gols em Copas do Mundo?',
-                'options' => ['Pelé', 'Ronaldo', 'Romário', 'Bebeto'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Qual é a duração oficial de uma partida de futebol?',
-                'options' => ['80 minutos', '90 minutos', '100 minutos', '120 minutos'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Que país organizou a primeira Copa do Mundo?',
-                'options' => ['Brasil', 'Inglaterra', 'Uruguai', 'Argentina'],
-                'correct_answer' => '2'
-            ],
-            [
-                'question' => 'Qual jogador é conhecido como "El Fenómeno"?',
-                'options' => ['Ronaldinho', 'Ronaldo Nazário', 'Cristiano Ronaldo', 'Kaká'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Quantos times participam da Copa do Mundo atualmente?',
-                'options' => ['24', '32', '48', '16'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Qual seleção tem mais títulos de Copa do Mundo?',
-                'options' => ['Alemanha', 'Argentina', 'Brasil', 'Itália'],
-                'correct_answer' => '2'
-            ],
-            [
-                'question' => 'Em que cidade fica o estádio Wembley?',
-                'options' => ['Manchester', 'Liverpool', 'Londres', 'Birmingham'],
-                'correct_answer' => '2'
-            ],
-            [
-                'question' => 'Qual jogador marcou o "Gol do Século" em 1986?',
-                'options' => ['Pelé', 'Diego Maradona', 'Zico', 'Michel Platini'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Qual é o apelido da seleção brasileira?',
-                'options' => ['Seleção', 'Canarinho', 'Verde-Amarela', 'Todas as anteriores'],
-                'correct_answer' => '3'
-            ],
-            [
-                'question' => 'Quem foi o primeiro jogador a marcar 1000 gols oficiais?',
-                'options' => ['Maradona', 'Pelé', 'Puskas', 'Di Stéfano'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Qual clube Messi defendeu por mais tempo?',
-                'options' => ['PSG', 'Barcelona', 'Inter Miami', 'Newell\'s Old Boys'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Em que ano foi criada a FIFA?',
-                'options' => ['1900', '1904', '1908', '1912'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Qual país venceu a primeira Copa do Mundo?',
-                'options' => ['Brasil', 'Argentina', 'Uruguai', 'Itália'],
-                'correct_answer' => '2'
-            ],
-            [
-                'question' => 'Quantos cartões vermelhos resultam em expulsão?',
-                'options' => ['1', '2', '3', 'Depende da falta'],
+                'question' => 'Who is the youngest manager ever to win the UEFA Champions League (by age at win)?',
+                'options' => ['Pep Guardiola', 'José Mourinho', 'Carlo Ancelotti', 'Ernesto Valverde'],
                 'correct_answer' => '0'
             ],
             [
-                'question' => 'Qual é a distância oficial do pênalti?',
-                'options' => ['10 metros', '11 metros', '12 metros', '13 metros'],
-                'correct_answer' => '2'
-            ],
-            [
-                'question' => 'Quem inventou o futebol moderno?',
-                'options' => ['Brasileiros', 'Argentinos', 'Ingleses', 'Uruguaios'],
-                'correct_answer' => '2'
-            ],
-            [
-                'question' => 'Qual seleção é chamada de "Les Bleus"?',
-                'options' => ['Itália', 'França', 'Bélgica', 'Holanda'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Em que posição joga tradicionalmente o camisa 10?',
-                'options' => ['Goleiro', 'Zagueiro', 'Meio-campista', 'Atacante'],
-                'correct_answer' => '2'
-            ],
-            [
-                'question' => 'Qual clube tem o apelido "Merengues"?',
-                'options' => ['Barcelona', 'Real Madrid', 'Atletico Madrid', 'Valencia'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Quem foi o primeiro brasileiro a ganhar a Bola de Ouro?',
-                'options' => ['Pelé', 'Kaká', 'Ronaldinho', 'Rivaldo'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Qual é o maior clássico do futebol argentino?',
-                'options' => ['River x Racing', 'Boca x River', 'Independiente x San Lorenzo', 'Estudiantes x Gimnasia'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Em que continente fica a sede da FIFA?',
-                'options' => ['América', 'Europa', 'Ásia', 'África'],
-                'correct_answer' => '1'
-            ],
-            [
-                'question' => 'Qual jogador é conhecido como "CR7"?',
-                'options' => ['Cristiano Ronaldo', 'Carlos Ronaldo', 'Clarence Ronald', 'Christian Ronaldinho'],
+                'question' => 'Which country hosted the European Championship in 2004 where a major upset saw Greece win the tournament?',
+                'options' => ['Portugal', 'Greece', 'Turkey', 'Spain'],
                 'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Which strikers are credited with the origin of the term "false nine" popularization in modern tactics?',
+                'options' => ['Lionel Messi and Francesco Totti', 'Ronaldo and Romário', 'Thierry Henry and Alan Shearer', 'Luis Suárez and Wayne Rooney'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Which club has the record for the most consecutive wins in all competitions in a single season (major European clubs)?',
+                'options' => ['Real Madrid', 'Manchester City', 'Bayern Munich', 'Paris Saint-Germain'],
+                'correct_answer' => '2'
+            ],
+            [
+                'question' => 'Which competition did the MLS adopt as its playoff final format name?',
+                'options' => ['MLS Cup', 'Supporters\' Shield', 'US Open Cup', 'Leagues Cup'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Which English club famously avoided relegation in 2005 after signing several veterans in the January window and winning survival matches?',
+                'options' => ['West Ham United', 'Leicester City', 'Sunderland', 'Wigan Athletic'],
+                'correct_answer' => '0'
+            ],
+            [
+                'question' => 'Which milestone did Lionel Messi achieve at the 2022 FIFA World Cup final?',
+                'options' => ['Most World Cup appearances', 'Most international goals', 'Winning the World Cup and Ballon d\'Or in same year', 'Most assists in a final'],
+                'correct_answer' => '2'
             ]
         ];
 
@@ -219,6 +209,6 @@ class FootballQuestionsSeeder extends Seeder
             Question::create($questionData);
         }
 
-        $this->command->info('40 perguntas de futebol criadas com sucesso!');
+        $this->command->info('40 football questions created successfully!');
     }
 }

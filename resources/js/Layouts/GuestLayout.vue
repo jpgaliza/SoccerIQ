@@ -17,7 +17,7 @@ import { Link } from '@inertiajs/vue3';
                 <slot />
             </div>
 
-            <p class="text-center text-sm text-slate-500">Acesso seguro ao SoccerIQ</p>
+            <p class="text-center text-sm text-slate-500">Safe acess to SoccerIQ</p>
         </div>
     </div>
 </template>

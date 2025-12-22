@@ -13,9 +13,9 @@ const props = defineProps({
 
 const quizMeta = {
     code: 'Quiz SoccerIQ',
-    timeLimit: '5 minutos',
+    timeLimit: '5 minutes',
     totalQuestions: 10,
-    info: ['10 perguntas aleatórias', '4 alternativas por pergunta', '30 segundos por questão', 'Máximo 100 pts por pergunta'],
+    info: ['10 random questions', '4 options per question', '30 seconds per question', 'Up to 100 pts per question'],
 };
 
 const showIntroModal = ref(true);
@@ -48,11 +48,11 @@ const progressPercent = computed(() => {
 
 const actionButtonLabel = computed(() => {
     if (!isAnswerRevealed.value) {
-        return 'Confirmar resposta';
+        return 'Confirm answer';
     }
     return currentQuestionIndex.value === totalQuestions - 1
-        ? 'Finalizar quiz'
-        : 'Próxima pergunta';
+        ? 'Finish quiz'
+        : 'Next question';
 });
 
 const actionButtonDisabled = computed(() => !isAnswerRevealed.value && !selectedOption.value);
@@ -97,7 +97,7 @@ const stopTimer = () => {
 
 const handleTimeUp = () => {
     if (!isAnswerRevealed.value) {
-        stopTimer(); // Parar timer quando tempo esgota
+        stopTimer(); // Stop timer when time runs out
         timeLeft.value = 0;
         selectedOption.value = null;
         handlePrimaryAction();
@@ -119,8 +119,8 @@ const startQuiz = async () => {
         quizStartTime.value = Date.now();
         startTimer();
     } catch (error) {
-        console.error('Erro ao iniciar quiz:', error);
-        alert('Erro ao iniciar quiz. Tente novamente.');
+        console.error('Error starting quiz:', error);
+        alert('Error starting quiz. Please try again.');
     } finally {
         isLoading.value = false;
     }
@@ -136,7 +136,7 @@ const startQuiz = async () => {
             const response = await axios.post(route('quiz.answer'), {
                 quiz_id: quizId.value,
                 question_id: currentQuestion.value.id,
-                user_answer: selectedOption.value || '999', // 999 para respostas não respondidas
+                user_answer: selectedOption.value || '999', // 999 for unanswered
                 time_taken: timeTaken
             });
 
@@ -144,15 +144,15 @@ const startQuiz = async () => {
             score.value = response.data.total_score;
 
             if (response.data.is_correct) {
-                feedbackMessage.value = `Resposta correta! +${pointsEarned} pts.`;
+                feedbackMessage.value = `Correct! +${pointsEarned} pts.`;
                 feedbackType.value = 'correct';
             } else {
-                feedbackMessage.value = selectedOption.value ? 'Resposta incorreta. Continue focado!' : 'Tempo esgotado!';
+                feedbackMessage.value = selectedOption.value ? 'Incorrect answer. Keep focused!' : "Time's up!";
                 feedbackType.value = 'incorrect';
             }
         } catch (error) {
-            console.error('Erro ao enviar resposta:', error);
-            feedbackMessage.value = 'Erro ao processar resposta';
+            console.error('Error sending answer:', error);
+            feedbackMessage.value = 'Error processing answer';
             feedbackType.value = 'incorrect';
         } finally {
             isLoading.value = false;
@@ -182,7 +182,7 @@ const startQuiz = async () => {
         return;
     }
 
-    // Próxima pergunta
+    // Next question
     currentQuestionIndex.value += 1;
     selectedOption.value = null;
     isAnswerRevealed.value = false;
@@ -250,14 +250,14 @@ onUnmounted(() => {
                                 :class="timeLeft <= 5 ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'">
                                 {{ formatTime(timeLeft) }}
                             </div>
-                            <div class="text-slate-400">{{ currentQuestionIndex + 1 }}/{{ totalQuestions }} perguntas
+                            <div class="text-slate-400">{{ currentQuestionIndex + 1 }}/{{ totalQuestions }} questions
                             </div>
                         </div>
                     </div>
                     <div>
                         <div class="flex items-center justify-between text-sm font-semibold text-slate-500">
                             <span>{{ quizMeta.code }}</span>
-                            <span>{{ progressPercent }}% concluído</span>
+                            <span>{{ progressPercent }}% completed</span>
                         </div>
                         <div class="mt-2 h-2 rounded-full bg-slate-100">
                             <div class="h-full rounded-full bg-emerald-500 transition-all duration-500"
@@ -269,7 +269,7 @@ onUnmounted(() => {
                 <div class="rounded-3xl border border-slate-100 bg-white/95 p-6 shadow-xl">
                     <div class="mb-6">
                         <h1 class="text-xl font-bold text-slate-900">{{ currentQuestion.question }}</h1>
-                        <p class="mt-1 text-sm text-slate-500">Escolha a alternativa correta para avançar no quiz.</p>
+                        <p class="mt-1 text-sm text-slate-500">Select the correct option to proceed.</p>
                     </div>
                     <div class="space-y-3">
                         <button v-for="option in currentQuestion.options" :key="option.id" type="button"
@@ -284,11 +284,11 @@ onUnmounted(() => {
                                     class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
                                     ✓
                                 </span>
-                                Correta
+                                Correct
                             </div>
                             <div v-else-if="isAnswerRevealed.value && option.id === selectedOption && option.id !== currentQuestion.correct"
                                 class="text-sm font-semibold text-rose-500">
-                                Sua escolha
+                                Your choice
                             </div>
                         </button>
                     </div>
@@ -310,9 +310,9 @@ onUnmounted(() => {
         <transition name="fade">
             <div v-if="showIntroModal" class="fixed inset-0 z-30 flex items-center justify-center bg-slate-900/60 px-4">
                 <div class="w-full max-w-md rounded-3xl bg-white p-8 text-center shadow-2xl">
-                    <h2 class="text-2xl font-bold text-slate-900">Pronto para começar?</h2>
+                    <h2 class="text-2xl font-bold text-slate-900">Ready to start?</h2>
                     <p class="mt-2 text-sm text-slate-500">
-                        Revise as regras rápidas antes de iniciar. Este quiz verifica suas respostas em tempo real.
+                        Review the quick rules before starting. This quiz checks your answers in real time.
                     </p>
                     <ul class="mt-6 space-y-3 text-left text-sm text-slate-600">
                         <li class="flex items-center gap-3">
@@ -326,7 +326,7 @@ onUnmounted(() => {
                                     <circle cx="12" cy="14" r="8" />
                                 </svg>
                             </span>
-                            Limite de tempo: {{ quizMeta.timeLimit }}
+                            Time limit: {{ quizMeta.timeLimit }}
                         </li>
                         <li class="flex items-center gap-3">
                             <span
@@ -340,7 +340,7 @@ onUnmounted(() => {
                                     <path d="M12 17h.01" />
                                 </svg>
                             </span>
-                            Perguntas: {{ quizMeta.totalQuestions }}
+                            Questions: {{ quizMeta.totalQuestions }}
                         </li>
                         <li class="flex items-center gap-3">
                             <span
@@ -358,7 +358,7 @@ onUnmounted(() => {
                     <button type="button"
                         class="mt-8 rounded-button bg-emerald-500 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-emerald-200 transition hover:bg-emerald-600"
                         @click="startQuiz">
-                        Começar quiz
+                        Start quiz
                     </button>
                 </div>
             </div>
@@ -368,25 +368,24 @@ onUnmounted(() => {
             <div v-if="showSummaryModal"
                 class="fixed inset-0 z-30 flex items-center justify-center bg-slate-900/60 px-4">
                 <div class="w-full max-w-md rounded-3xl bg-white p-8 text-center shadow-2xl">
-                    <h2 class="text-2xl font-bold text-slate-900">Resultados do quiz</h2>
-                    <p class="mt-2 text-sm text-slate-500">Excelente trabalho! Continue praticando para subir no
-                        ranking.</p>
+                    <h2 class="text-2xl font-bold text-slate-900">Quiz results</h2>
+                    <p class="mt-2 text-sm text-slate-500">Great job! Keep practicing to climb the ranking.</p>
                     <div class="mt-6 space-y-4 text-left">
                         <div class="rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-emerald-700">
-                            Pontos conquistados: <span class="text-xl font-bold">{{ score }} pts</span>
+                            Points earned: <span class="text-xl font-bold">{{ score }} pts</span>
                         </div>
                         <div class="rounded-2xl border border-slate-100 px-4 py-3 text-slate-600">
-                            Tempo total: <span class="font-bold">{{ finalQuizData ?
+                            Total time: <span class="font-bold">{{ finalQuizData ?
                                 formatTotalTime(finalQuizData.total_time_seconds) : '—' }}</span>
                         </div>
                         <div class="rounded-2xl border border-slate-100 px-4 py-3 text-slate-600">
-                            Precisão: <span class="font-bold">{{ finalQuizData ? finalQuizData.accuracy : 0 }}%</span>
+                            Accuracy: <span class="font-bold">{{ finalQuizData ? finalQuizData.accuracy : 0 }}%</span>
                         </div>
                     </div>
                     <button type="button"
                         class="mt-8 rounded-button bg-emerald-500 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-emerald-200 transition hover:bg-emerald-600"
                         @click="returnToDashboard">
-                        Voltar ao dashboard
+                        Back to dashboard
                     </button>
                 </div>
             </div>

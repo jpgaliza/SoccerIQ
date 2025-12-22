@@ -23,31 +23,31 @@ const props = defineProps({
 const features = [
     {
         key: 'compete',
-        title: 'Competir',
-        description: 'Desafie amigos e suba no ranking global.',
+        title: 'Compete',
+        description: 'Challenge friends and climb the global ranking.',
     },
     {
         key: 'learn',
-        title: 'Aprender',
-        description: 'Receba explicações de especialistas para evoluir a cada pergunta.',
+        title: 'Learn',
+        description: 'Get expert explanations to improve with every question.',
     },
     {
         key: 'track',
-        title: 'Acompanhar Progresso',
-        description: 'Monitore seu desempenho e visualize estatísticas detalhadas.',
+        title: 'Track Progress',
+        description: 'Monitor your performance and view detailed statistics.',
     },
 ];
 
 const stats = [
-    { value: '10K+', label: 'Jogadores ativos' },
-    { value: '500+', label: 'Perguntas de especialistas' },
-    { value: '4.9/5', label: 'Avaliação dos jogadores' },
+    { value: '10K+', label: 'Active players' },
+    { value: '500+', label: 'Expert questions' },
+    { value: '4.9/5', label: 'Player rating' },
 ];
 </script>
 
 <template>
 
-    <Head title="Bem-vindo" />
+    <Head title="Welcome" />
 
     <div class="min-h-screen bg-gradient-to-b from-neutral-50 via-white to-white text-slate-900">
         <div class="mx-auto flex max-w-6xl flex-col px-6 py-8 lg:px-10">
@@ -72,11 +72,11 @@ const stats = [
                 <div v-if="props.canLogin" class="flex items-center gap-3 text-sm font-semibold">
                     <Link :href="route('login')"
                         class="rounded-button border border-emerald-500 px-5 py-2 text-emerald-600 transition hover:bg-emerald-50">
-                    Entrar
+                        Login
                     </Link>
                     <Link v-if="props.canRegister" :href="route('register')"
                         class="rounded-button bg-emerald-500 px-5 py-2 text-white shadow-lg shadow-emerald-500/30 transition hover:bg-emerald-600">
-                    Criar conta
+                        Create account
                     </Link>
                 </div>
             </header>
@@ -84,30 +84,30 @@ const stats = [
             <main class="grid flex-1 grid-cols-1 gap-10 py-32 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
                 <section class="max-w-2xl space-y-6">
                     <p class="text-xs font-semibold uppercase tracking-[0.4em] text-slate-400">
-                        Compita &bull; Aprenda &bull; Acompanhe
+                        Compete &bull; Learn &bull; Track
                     </p>
                     <h1 class="text-4xl font-bold leading-tight sm:text-5xl">
-                        Teste seus conhecimentos
-                        <span class="text-emerald-500">sobre futebol</span>
+                        Test your knowledge
+                        <span class="text-emerald-500">about football</span>
                     </h1>
                     <p class="text-lg text-slate-600">
-                        Desafie-se com perguntas de futebol em nível especialista, dispute com jogadores do mundo todo e
-                        acompanhe sua evolução.
+                        Challenge yourself with expert-level football questions, compete with players worldwide, and
+                        track your progress.
                     </p>
                     <div class="flex flex-wrap gap-4">
                         <Link :href="route('login')"
                             class="flex items-center gap-2 rounded-button bg-emerald-500 px-7 py-3 text-base font-semibold text-white shadow-lg shadow-emerald-500/40 transition hover:bg-emerald-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-zap-icon lucide-zap">
-                            <path
-                                d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
-                        </svg>
-                        Iniciar quiz
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-zap-icon lucide-zap">
+                                <path
+                                    d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
+                            </svg>
+                            Start quiz
                         </Link>
                         <Link :href="route('login')"
                             class="rounded-button border border-emerald-500 px-7 py-3 text-base font-semibold text-emerald-600 transition hover:bg-emerald-50">
-                        Ver pontuação
+                            View score
                         </Link>
                     </div>
                 </section>
@@ -176,22 +176,22 @@ const stats = [
                     </a>
                     <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-body sm:mb-0">
                         <li>
-                            <a href="#" class="hover:underline me-4 md:me-6">Sobre</a>
+                            <a href="#" class="hover:underline me-4 md:me-6">About</a>
                         </li>
                         <li>
-                            <a href="#" class="hover:underline me-4 md:me-6">Política de Privacidade</a>
+                            <a href="#" class="hover:underline me-4 md:me-6">Privacy Policy</a>
                         </li>
                         <li>
-                            <a href="#" class="hover:underline me-4 md:me-6">Licenciamento</a>
+                            <a href="#" class="hover:underline me-4 md:me-6">Licensing</a>
                         </li>
                         <li>
-                            <a href="#" class="hover:underline">Contato</a>
+                            <a href="#" class="hover:underline">Contact</a>
                         </li>
                     </ul>
                 </div>
                 <hr class="my-6 border-default sm:mx-auto lg:my-4" />
                 <span class="block text-sm text-body sm:text-center">© 2025 <a href="https://flowbite.com/"
-                        class="hover:underline">SoccerIQ</a>. Todos os direitos reservados.</span>
+                        class="hover:underline">SoccerIQ</a>. All rights reserved.</span>
             </div>
         </footer>
     </div>

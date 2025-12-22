@@ -36,6 +36,30 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/quiz/finish', [\App\Http\Controllers\QuizController::class, 'finish'])->name('quiz.finish');
 
     Route::get('/history', function () {
-        return Inertia::render('GameHistory');
+        $user = auth()->user();
+        $entries = $user->completedQuizzes()
+            ->orderByDesc('completed_at')
+            ->get()
+            ->map(function ($quiz) {
+                $duration = $quiz->total_time_seconds ?
+                    sprintf('%02d:%02d', floor($quiz->total_time_seconds / 60), $quiz->total_time_seconds % 60) : '--:--';
+                $result = match (true) {
+                    $quiz->score >= 700 => 'Excellent',
+                    $quiz->score >= 650 => 'Very good',
+                    $quiz->score >= 600 => 'Good',
+                    default => 'Average',
+                };
+                return [
+                    'id' => $quiz->id,
+                    'quizName' => 'Quiz #' . $quiz->id,
+                    'score' => $quiz->score,
+                    'duration' => $duration,
+                    'date' => $quiz->completed_at ? $quiz->completed_at->format('M d') : '',
+                    'result' => $result,
+                ];
+            });
+        return Inertia::render('GameHistory', [
+            'entries' => $entries,
+        ]);
     })->name('history');
 });
