@@ -12,7 +12,7 @@ const props = defineProps({
     },
     contentClasses: {
         type: String,
-        default: 'py-1 bg-white/95 border border-emerald-50 shadow-lg',
+        default: 'py-2 bg-white/95 border border-emerald-50 shadow-lg',
     },
 });
 
@@ -56,9 +56,9 @@ const open = ref(false);
         <Transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0 scale-95"
             enter-to-class="opacity-100 scale-100" leave-active-class="transition ease-in duration-75"
             leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
-            <div v-show="open" class="absolute z-50 mt-2 rounded-2xl shadow-xl shadow-emerald-50"
+            <div v-show="open" class="absolute z-50 mt-2 rounded-2xl shadow-xl shadow-emerald-100/50"
                 :class="[widthClass, alignmentClasses]" style="display: none" @click="open = false">
-                <div class="rounded-2xl ring-1 ring-emerald-100 ring-opacity-50" :class="contentClasses">
+                <div class="rounded-2xl ring-1 ring-emerald-100/50" :class="contentClasses">
                     <slot name="content" />
                 </div>
             </div>

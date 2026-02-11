@@ -52,7 +52,7 @@ const metricCards = computed(() => [
 
         <div class="bg-gradient-to-b from-neutral-50 via-white to-white py-10">
             <div class="mx-auto max-w-6xl space-y-10 px-4 sm:px-6 lg:px-0">
-                <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                <div class="grid grid-cols-2 gap-4 md:grid-cols-2 xl:grid-cols-4">
                     <article v-for="card in metricCards" :key="card.label"
                         class="rounded-2xl border border-emerald-50 bg-white/95 p-6 shadow-lg shadow-emerald-50">
                         <p class="text-sm font-semibold uppercase tracking-wide text-slate-400">
@@ -65,7 +65,7 @@ const metricCards = computed(() => [
                     </article>
                 </div>
 
-                <div class="flex flex-wrap gap-4">
+                <div class="flex flex-wrap justify-center sm:justify-start gap-4">
                     <Link :href="route('quiz')"
                         class="rounded-button bg-emerald-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-200 transition hover:bg-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2">
                         Start new quiz
