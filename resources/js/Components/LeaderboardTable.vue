@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, onMounted, onUnmounted } from 'vue';
 
 const props = defineProps({
     players: {
@@ -13,7 +13,25 @@ const props = defineProps({
 });
 
 const currentPage = ref(1);
-const pageSize = computed(() => Math.min(props.perPage || 10, 10));
+const isMobile = ref(false);
+
+const checkMobile = () => {
+    isMobile.value = window.innerWidth < 640; // sm breakpoint
+};
+
+onMounted(() => {
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', checkMobile);
+});
+
+const pageSize = computed(() => {
+    const size = isMobile.value ? 5 : (props.perPage || 10);
+    return Math.min(size, 10);
+});
 
 const totalPages = computed(() => {
     if (!props.players.length) return 1;

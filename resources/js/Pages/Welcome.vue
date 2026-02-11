@@ -51,13 +51,13 @@ const stats = [
 
     <div class="min-h-screen bg-gradient-to-b from-neutral-50 via-white to-white text-slate-900">
         <div class="mx-auto flex max-w-6xl flex-col px-6 py-8 lg:px-10">
-            <header class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div class="flex items-center gap-3">
+            <header class="flex items-center justify-between">
+                <div class="flex items-center gap-2 sm:gap-3">
                     <div
-                        class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500 text-lg font-bold text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        class="flex h-8 w-8 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl bg-emerald-500 text-lg font-bold text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-trophy-icon lucide-trophy">
+                            class="lucide lucide-trophy-icon lucide-trophy sm:w-6 sm:h-6">
                             <path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978" />
                             <path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978" />
                             <path d="M18 9h1.5a1 1 0 0 0 0-5H18" />
@@ -66,22 +66,23 @@ const stats = [
                             <path d="M6 9H4.5a1 1 0 0 1 0-5H6" />
                         </svg>
                     </div>
-                    <span class="text-xl font-semibold">SoccerIQ</span>
+                    <span class="text-base sm:text-xl font-semibold">SoccerIQ</span>
                 </div>
 
-                <div v-if="props.canLogin" class="flex items-center gap-3 text-sm font-semibold">
+                <div v-if="props.canLogin" class="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-semibold">
                     <Link :href="route('login')"
-                        class="rounded-button border border-emerald-500 px-5 py-2 text-emerald-600 transition hover:bg-emerald-50">
+                        class="rounded-button border border-emerald-500 px-3 py-1.5 sm:px-5 sm:py-2 text-emerald-600 transition hover:bg-emerald-50">
                         Login
                     </Link>
                     <Link v-if="props.canRegister" :href="route('register')"
-                        class="rounded-button bg-emerald-500 px-5 py-2 text-white shadow-lg shadow-emerald-500/30 transition hover:bg-emerald-600">
+                        class="rounded-button bg-emerald-500 px-3 py-1.5 sm:px-5 sm:py-2 text-white shadow-lg shadow-emerald-500/30 transition hover:bg-emerald-600">
                         Create account
                     </Link>
                 </div>
             </header>
 
-            <main class="grid flex-1 grid-cols-1 gap-10 py-32 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+            <main
+                class="grid flex-1 grid-cols-1 gap-10 py-12 sm:py-32 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
                 <section class="max-w-2xl space-y-6">
                     <p class="text-xs font-semibold uppercase tracking-[0.4em] text-slate-400">
                         Compete &bull; Learn &bull; Track
@@ -156,12 +157,12 @@ const stats = [
         </div>
         <footer class="bg-neutral-primary-soft rounded-base shadow-xs border border-default">
             <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-                <div class="sm:flex sm:items-center sm:justify-between">
+                <div class="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between">
                     <a href="https://socceriq.com/"
-                        class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
+                        class="flex items-center justify-center mb-4 sm:mb-0 space-x-2 rtl:space-x-reverse">
                         <div
-                            class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500 text-lg font-bold text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            class="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-500 text-base font-bold text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="lucide lucide-trophy-icon lucide-trophy">
                                 <path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978" />
@@ -172,9 +173,9 @@ const stats = [
                                 <path d="M6 9H4.5a1 1 0 0 1 0-5H6" />
                             </svg>
                         </div>
-                        <span class="text-xl font-semibold">SoccerIQ</span>
+                        <span class="text-base font-semibold">SoccerIQ</span>
                     </a>
-                    <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-body sm:mb-0">
+                    <ul class="flex flex-wrap justify-center items-center text-sm font-medium text-body sm:mb-0">
                         <li>
                             <a href="#" class="hover:underline me-4 md:me-6">About</a>
                         </li>
@@ -190,7 +191,7 @@ const stats = [
                     </ul>
                 </div>
                 <hr class="my-6 border-default sm:mx-auto lg:my-4" />
-                <span class="block text-sm text-body sm:text-center">© 2025 <a href="https://flowbite.com/"
+                <span class="block text-sm text-body text-center">© 2025 <a href="https://flowbite.com/"
                         class="hover:underline">SoccerIQ</a>. All rights reserved.</span>
             </div>
         </footer>
